@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -6,7 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post()
-  getHello(): string {
-    return this.appService.getHello();
+  getOk(@Query() query: any, @Body() body: any) {
+    return this.appService.getOk(query, body);
   }
 }
