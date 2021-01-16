@@ -1,10 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
+import { SendMessage } from 'telegram-typings';
+
+const tgApi = (apiMethod: string) =>
+  `https://api.telegram.org/bot${process.env.BOT_KEY}/${apiMethod}`;
 
 @Injectable()
 export class AppService {
-  getOk(query: any, body: any): { status: string } {
-    console.log(query, body);
+  constructor(private httpService: HttpService) {}
 
-    return { status: 'ok' };
+  sendMessage({ chat_id, text }: SendMessage) {
+    return { chat_id, text, method: 'sendMessage' };
+    // return this.httpService.post(tgApi('sendMessage'), { text, chat_id });
   }
 }
