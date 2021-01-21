@@ -9,6 +9,10 @@ export class ChatEntity implements Chat {
   @Column()
   type!: string;
 
+  // should be true by default
+  @Column()
+  isActive!: boolean;
+
   @Column({ nullable: true })
   username!: string;
 
