@@ -18,10 +18,6 @@ export class PhraseService {
       .limit(1)
       .getOne();
 
-    if (row) {
-      return row.phrase;
-    }
-
-    return null;
+    return row?.phrase;
   }
 }

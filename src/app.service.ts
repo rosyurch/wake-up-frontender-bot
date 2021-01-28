@@ -1,11 +1,26 @@
 import { HttpService, Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { Chat } from 'telegram-typings';
 import { ChatService } from './chat/chat.service';
 import { tgApi } from './helpers/apiCall';
+import { PhraseService } from './phrase/phrase.service';
 // Wake up, frontender! Time to add spaghetti policy header
 @Injectable()
 export class AppService {
-  constructor(private http: HttpService, private chatService: ChatService) {}
+  constructor(
+    private http: HttpService,
+    private chatService: ChatService,
+    private phraseService: PhraseService,
+  ) {}
+
+  // @Cron(CronExpression.EVERY_DAY_AT_9AM, { utcOffset: 0 })
+  async greet() {
+    const todaysMessage = await this.phraseService.getRandomPhrase('en');
+
+    if (!todaysMessage) return;
+
+    this.sendMessageToAllChats(todaysMessage);
+  }
 
   async processCommand({ text, chat }: { text: string; chat: Chat }) {
     const { id } = chat;
