@@ -4,7 +4,7 @@ import { Chat } from 'telegram-typings';
 import { ChatService } from './chat/chat.service';
 import { tgApi } from './helpers/apiCall';
 import { PhraseService } from './phrase/phrase.service';
-// Wake up, frontender! Time to add spaghetti policy header
+
 @Injectable()
 export class AppService {
   constructor(
@@ -13,7 +13,7 @@ export class AppService {
     private phraseService: PhraseService,
   ) {}
 
-  // @Cron(CronExpression.EVERY_DAY_AT_9AM, { utcOffset: 0 })
+  @Cron(CronExpression.EVERY_DAY_AT_9AM, { utcOffset: 0 })
   async greet() {
     const todaysMessage = await this.phraseService.getRandomPhrase('en');
 
@@ -34,14 +34,17 @@ export class AppService {
 
       this.chatService.addChat({ ...chat, isActive: true });
       return;
+    } else if (text === '/stop') {
+      this.chatService.setActivity(id, false);
+      return;
     }
+
     // for lang | time commands return keyboardss
     // return { chat_id: id, text, method: 'sendMessage' };
   }
 
   async sendMessageToAllChats(text: string) {
-    const chatIds = await this.chatService.getAllChatIds();
-    console.log(chatIds);
+    const chatIds = await this.chatService.getAllActiveChatIds();
 
     for (const chat of chatIds) {
       const { id } = chat;
@@ -51,10 +54,9 @@ export class AppService {
 
   async sendMessageToOneChat(text: string, id: number) {
     const sendMessageEndpoint = tgApi('sendMessage');
-    console.log(sendMessageEndpoint);
 
     const successMessage = this.http.post(sendMessageEndpoint, {
-      text: 'argh',
+      text,
       chat_id: id,
     });
     // from axios observable

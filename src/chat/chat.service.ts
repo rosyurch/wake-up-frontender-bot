@@ -34,7 +34,10 @@ export class ChatService {
     return this.ChatRepository.findOne({ id });
   }
 
-  async getAllChatIds() {
-    return this.ChatRepository.find({ select: ['id'] });
+  async getAllActiveChatIds() {
+    return this.ChatRepository.find({
+      select: ['id'],
+      where: { isActive: true },
+    });
   }
 }
