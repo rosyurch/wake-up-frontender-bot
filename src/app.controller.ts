@@ -11,14 +11,11 @@ export class AppController {
     const { message } = updateBody;
 
     if (message) {
-      const {
-        text = 'received',
-        chat: { id: chat_id },
-      } = message;
+      const { text = 'received', chat } = message;
 
       console.log(updateBody);
 
-      return this.appService.sendMessage({ chat_id, text });
+      return this.appService.processCommand({ text, chat });
     }
 
     return HttpStatus.OK;

@@ -15,16 +15,26 @@ export class ChatService {
   ) {}
 
   addChat(chat: ChatEntity) {
+    console.log('from chat service', chat);
+
     this.ChatRepository.save(chat);
   }
 
-  async deactivateChat(id: number) {
-    this.ChatRepository.update({ id }, { isActive: false });
+  async setActivity(id: number, isActive: boolean) {
+    this.ChatRepository.update({ id }, { isActive });
   }
 
   async sendMessageToChat({ text, chat_id }: SendMessage) {
     const sendMessage = tgApi('sendMessage');
 
     this.httpService.post(sendMessage, { text, chat_id });
+  }
+
+  async findById(id: number) {
+    return this.ChatRepository.findOne({ id });
+  }
+
+  async getAllChatIds() {
+    return this.ChatRepository.find({ select: ['id'] });
   }
 }
