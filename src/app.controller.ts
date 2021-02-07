@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Update } from 'telegram-typings';
 
@@ -19,5 +19,10 @@ export class AppController {
     }
 
     return HttpStatus.OK;
+  }
+
+  @Get('/test')
+  chackAlive() {
+    return "It's alive";
   }
 }
