@@ -13,7 +13,7 @@ export class AppService {
     private phraseService: PhraseService,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_7AM, { utcOffset: 0 })
+  @Cron(CronExpression.EVERY_MINUTE, { utcOffset: 0 })
   async greet() {
     const todaysMessage = await this.phraseService.getRandomPhrase('en');
 
