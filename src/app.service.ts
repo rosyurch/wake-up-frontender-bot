@@ -1,6 +1,7 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Chat } from 'telegram-typings';
+import type { Chat } from 'telegram-typings';
 import { ChatService } from './chat/chat.service';
 import { tgApi } from './helpers/apiCall';
 import { PhraseService } from './phrase/phrase.service';
@@ -8,9 +9,9 @@ import { PhraseService } from './phrase/phrase.service';
 @Injectable()
 export class AppService {
   constructor(
-    private http: HttpService,
-    private chatService: ChatService,
-    private phraseService: PhraseService,
+    private readonly http: HttpService,
+    private readonly chatService: ChatService,
+    private readonly phraseService: PhraseService,
   ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_7AM, { utcOffset: 0 })

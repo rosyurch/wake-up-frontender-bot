@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Update } from 'telegram-typings';
+import type { Update } from 'telegram-typings';
 
 @Controller()
 export class AppController {

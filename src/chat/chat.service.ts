@@ -1,6 +1,7 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SendMessage } from 'telegram-typings';
+import type { SendMessage } from 'telegram-typings';
 import { Repository } from 'typeorm';
 import { ChatEntity } from './chat.entity';
 import { tgApi } from '../helpers/apiCall';
@@ -9,9 +10,9 @@ import { tgApi } from '../helpers/apiCall';
 export class ChatService {
   constructor(
     @InjectRepository(ChatEntity)
-    private ChatRepository: Repository<ChatEntity>,
+    private readonly ChatRepository: Repository<ChatEntity>,
 
-    private httpService: HttpService,
+    private readonly httpService: HttpService,
   ) {}
 
   addChat(chat: ChatEntity) {

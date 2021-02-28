@@ -1,4 +1,4 @@
-import { Chat } from 'telegram-typings';
+import type { Chat } from 'telegram-typings';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
