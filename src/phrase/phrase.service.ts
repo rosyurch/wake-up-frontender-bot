@@ -5,13 +5,14 @@ import { Phrase } from './phrase.entity';
 
 @Injectable()
 export class PhraseService {
-  constructor(
+  public constructor(
     @InjectRepository(Phrase)
-    private readonly PhraseRepository: Repository<Phrase>,
+    private readonly phraseRepository: Repository<Phrase>,
   ) {}
 
-  async getRandomPhrase(lang: 'en' | 'ua') {
-    const row = await this.PhraseRepository.createQueryBuilder()
+  public async getRandomPhrase(lang: 'en' | 'ua'): Promise<string | undefined> {
+    const row = await this.phraseRepository
+      .createQueryBuilder()
       .select('phrase')
       .from(Phrase, 'phrase')
       .where('phrase.lang=:lang', { lang })

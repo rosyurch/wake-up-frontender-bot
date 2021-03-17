@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post()
-  async getOk(@Body() updateBody: Update) {
+  async getOk(@Body() updateBody: Update): Promise<void | HttpStatus.OK> {
     const { message } = updateBody;
 
     if (message) {
@@ -22,7 +22,7 @@ export class AppController {
   }
 
   @Get('/test')
-  chackAlive() {
+  chackAlive(): string {
     return "It's alive";
   }
 }

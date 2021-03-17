@@ -1,5 +1,4 @@
-import { HttpService } from '@nestjs/common';
-import { Injectable } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import type { Chat } from 'telegram-typings';
 import { ChatService } from './chat/chat.service';
@@ -15,7 +14,7 @@ export class AppService {
   ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_7AM, { utcOffset: 0 })
-  async greet() {
+  async greet(): Promise<void> {
     const todaysMessage = await this.phraseService.getRandomPhrase('en');
 
     if (!todaysMessage) return;
@@ -23,7 +22,13 @@ export class AppService {
     this.sendMessageToAllChats(todaysMessage);
   }
 
-  async processCommand({ text, chat }: { text: string; chat: Chat }) {
+  async processCommand({
+    text,
+    chat,
+  }: {
+    text: string;
+    chat: Chat;
+  }): Promise<void> {
     const { id } = chat;
     if (text === '/start') {
       const existingChat = await this.chatService.findById(id);
@@ -44,7 +49,7 @@ export class AppService {
     // return { chat_id: id, text, method: 'sendMessage' };
   }
 
-  async sendMessageToAllChats(text: string) {
+  async sendMessageToAllChats(text: string): Promise<void> {
     const chatIds = await this.chatService.getAllActiveChatIds();
 
     for (const chat of chatIds) {
