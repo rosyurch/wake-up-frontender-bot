@@ -6,7 +6,7 @@ import type { Update } from 'telegram-typings';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Post(`/${process.env.BOT_KEY}`)
+  @Post(`${process.env.BOT_KEY}`)
   async getOk(@Body() updateBody: Update): Promise<void | HttpStatus.OK> {
     const { message } = updateBody;
 
